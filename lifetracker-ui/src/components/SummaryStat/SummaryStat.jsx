@@ -1,6 +1,10 @@
+import { useAuthContext } from "components/contexts/auth"
+import { useEffect, useState } from "react";
 import "./SummaryStat.css"
-export default function SummaryStat()
+export default function SummaryStat({calorycalc})
 {
+ 
+
     return (
         <div className="summary-stat">
             <div className="main">
@@ -15,7 +19,7 @@ export default function SummaryStat()
                     </div>
                     <div className="cards lightblue">
                           <p>Avg Daily Calories</p>
-                        <h1>0</h1>
+                        <h1>{calorycalc}</h1>
                      </div>
                 </div>
             </div>

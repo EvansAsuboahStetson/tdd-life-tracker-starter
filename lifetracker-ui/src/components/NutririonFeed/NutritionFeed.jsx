@@ -1,12 +1,15 @@
-import { NutitritionContext } from "components/contexts/nutrition";
-import { useContext } from "react";
+import { useNutritionContext } from "components/contexts/nutrition"
 
-export default function NutritionFeed()
+import NutritionCards from "components/NutritionCards/NutritionCards"
+import ProductGrid from "components/ProductGrid/ProductGrid"
+
+export default function NutritionFeed({})
 {
-    const { nutrition, setNutrition, initialized, setInitialized, loading, setIsLoading,error,setError } = useContext(NutitritionContext) ;
-        console.log(nutrition)
+    const { nutritions } = useNutritionContext()  
+    console.log(nutritions)
     return (
         <div className="nutrition-feed">
+            <ProductGrid nutritions={nutritions} />
             
         </div>
     )

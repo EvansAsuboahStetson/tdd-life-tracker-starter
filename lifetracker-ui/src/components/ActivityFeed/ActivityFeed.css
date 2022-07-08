@@ -13,11 +13,11 @@
   flex-direction: row;
   margin-top: 50px;
 }
-.activity-feed .actions h2 {
+.activity-feed  h2 {
   display: flex;
   flex-direction: row;
   width: 100%;
-  font-size: 42px;
+  font-size: 32px;
   color: white;
   font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",

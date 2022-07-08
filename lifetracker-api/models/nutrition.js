@@ -16,7 +16,7 @@ class Nutrition {
     };
   }
 
-  static async createNutrition(nutrition) {
+  static async createNutrition({nutrition}) {
     const requiredFields = ["user_id", "name", "calories", "category", "image_url"];
 
     requiredFields.forEach((field) => {
@@ -53,11 +53,23 @@ class Nutrition {
     if (!user) {
       throw new BadRequestError("No email provided");
     }
+
+      const userId = await db.query(
+      `SELECT id FROM users
+            WHERE email = $1;
+            `,
+      [user.email]
+    );
+
+    const id = userId.rows[0].id
+    console.log(id)
+    
     const query = `SELECT * FROM nutrition WHERE user_id = $1`;
 
-    const result = await db.query(query, [user]);
+    const result = await db.query(query, [id]);
 
     const nutrition = result.rows;
+   
 
     return nutrition;
   }

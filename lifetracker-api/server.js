@@ -8,6 +8,8 @@ const morgan = require("morgan")
 const { PORT } = require("./config")
 
 const authRoutes = require("./routes/auth")
+const security = require("./middleware/security")
+
 const nutritionRoutes = require("./routes/nutrition")
 
 
@@ -23,7 +25,10 @@ app.use(express.json())
 
 app.use(morgan("tiny"))
 
+app.use(security.extractUserFromJwt)
+
 app.use("/auth", authRoutes)
+
 app.use("/nutrition", nutritionRoutes)
 
 

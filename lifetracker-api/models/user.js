@@ -7,7 +7,7 @@ const { BadRequestError, UnauthorisedError } = require("../utils/errors");
 
 class User {
 
-  static async MakePublicUser(user)
+  static async makePublicUser(user)
   {
     return {
       id: user.id,
@@ -39,7 +39,7 @@ class User {
       const isValid = await bcrypt.compare(credentials.password, user.password)
       if (isValid)
       {
-        return User.MakePublicUser(user)
+        return User.makePublicUser(user)
       }
     }
 
@@ -101,6 +101,12 @@ class User {
       throw new BadRequestError(`Duplicate Email: ${credentials.email}`);
     }
 
+    const existingUserName = await User.fetchUserByUsername(credentials.username)
+    if (existingUserName)
+    {
+         throw new BadRequestError(`Duplicate Username: ${credentials.username}`);
+    }
+
     const lowecaseEmail = credentials.email.toLowerCase();
     const result = await db.query(
       `
@@ -123,7 +129,7 @@ class User {
       ]
     );
     const user = result.rows[0];
-    return User.MakePublicUser(user);
+    return User.makePublicUser(user);
 
     //create new user in the database
     //return the user
@@ -140,5 +146,19 @@ class User {
 
     return user;
   }
+
+  static async fetchUserByUsername(username) {
+        if (!username) {
+            throw new BadRequestError("No username provided")
+        }
+        const query = `SELECT * FROM users WHERE username = $1`
+
+        const result = await db.query(query, [username.toLowerCase()])
+
+        const user = result.rows[0]
+
+        return user
+    }
+
 }
 module.exports = User;

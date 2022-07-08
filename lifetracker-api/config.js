@@ -3,6 +3,8 @@ require("dotenv").config()
 require("colors")
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3001
 
+const SECRET_KEY = process.env.SECRET_KEY || "secret_dev"
+
 function getDataBaseUri()
 {
     const dbUser = process.env.DATABASE_USER || "postgres"
@@ -21,5 +23,6 @@ console.log("Database URI".blue, getDataBaseUri())
 module.exports = {
     PORT,
     getDataBaseUri,
-    BCRYPT_WORK_FACTOR
+    BCRYPT_WORK_FACTOR,
+    SECRET_KEY
 }

@@ -48,7 +48,7 @@
     gap: 50px;
 
 }
-.signupBtn {
+.signupBtn,.logoutBtn {
     background: transparent;
     border: 1px solid transparent;
     display: flex;

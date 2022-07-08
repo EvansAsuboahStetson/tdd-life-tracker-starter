@@ -2,8 +2,12 @@ import "./LoginForm.css";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+import apiClient from "components/services/apiClient";
+import { useAuthContext } from "components/contexts/auth";
 
-export default function LoginForm({setAppState}) {
+export default function LoginForm({ message }) {
+  const { initialized ,appState,setAppState} = useAuthContext()
+  
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -29,33 +33,53 @@ export default function LoginForm({setAppState}) {
     setIsLoading(true);
     setErrors((e) => ({ ...e, form: null }));
 
-    try {
-      const res = await axios.post(`http://localhost:3001/auth/login`, form);
-      if (res?.data) {
-        setAppState(res.data);
-        setIsLoading(false);
-        navigate("/activity");
-      } else {
-        setErrors((e) => ({
-          ...e,
-          form: "Invalid username/password combination",
-        }));
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-      const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({
-        ...e,
-        form: message ? String(message) : String(err),
-      }));
-      setIsLoading(false);
+    const { data, error } = await apiClient.loginUser({ email: form.email, password: form.password })
+    if (error)
+    {
+      setErrors((e) => ({ ...e, form: "Invalid username/password combination" }))    
     }
+    
+
+    if (data?.user)
+    {
+      console.log("data1",data)
+      setAppState(data)
+      console.log("data.user", initialized)
+      apiClient.setToken(data.token)
+      navigate("/activity");
+      console.log("This is appState",appState)
+    }
+    setIsLoading(false);
+
+    // try {
+    //   const res = await axios.post(`http://localhost:3001/auth/login`, form);
+    //   if (res?.data) {
+    //     setAppState(res.data);
+    //     setIsLoading(false);
+    //     navigate("/activity");
+    //   } else {
+    //     setErrors((e) => ({
+    //       ...e,
+    //       form: "Invalid username/password combination",
+    //     }));
+    //     setIsLoading(false);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    //   const message = err?.response?.data?.error?.message;
+    //   setErrors((e) => ({
+    //     ...e,
+    //     form: message ? String(message) : String(err),
+    //   }));
+    //   setIsLoading(false);
+    // }
+
+    
   };
 
   return (
     <div className="login-form">
-      {Boolean(errors.form) && <span className="error">{errors.form}</span>}
+      {Boolean(errors.form) || message ? <span className="error">{errors.form || message}</span> : null}
       <div className="input-field">
         <label>Email</label>
         <input
@@ -72,6 +96,7 @@ export default function LoginForm({setAppState}) {
           placeholder="password"
           name="password"
           value={form.password}
+          type="password"
           onChange={handleOnInputChange}
         />
         {errors.password && <span className="error">{errors.password}</span>}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./NavLinks.css";
 
-export default function NavLinks() {
+export default function NavLinks({ handleLogout, loggedIn}) {
   return (
     <div className="nav-links">
       <ul className="ul-links">
@@ -26,10 +26,18 @@ export default function NavLinks() {
           </Link>
         </li>
         <li>
-          <Link className="link-component" to="/login" >
-             <span className="loginBtn">Login</span>
-          </Link>
+          {
+            !loggedIn ? <Link className="link-component" to="/login" >
+            <span className="loginBtn">Login</span>
+          </Link>:""}
+          
          
+        </li>
+        <li>
+          <Link className="link-component"  to="/login">
+            <span className="logoutBtn" onClick={handleLogout}>Logout</span>
+          </Link>
+
         </li>
         <li>
           <Link to="/register" className="link-component" >

@@ -2,6 +2,7 @@ import "./RegistrationForm.css";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import apiClient from "components/services/apiClient";
 
 export default function RegistrationForm({ setAppState }) {
   const navigate = useNavigate();
@@ -93,36 +94,61 @@ export default function RegistrationForm({ setAppState }) {
       setErrors((e) => ({ ...e, passwordConfirm: null }));
     }
 
-    try {
-      const res = await axios.post("http://localhost:3001/auth/register", {
-        first_name: form.first_name,
-        last_name: form.last_name,
-        email: form.email,
-        password: form.password,
-        username: form.username,
-      });
-
-      if (res?.data?.user) {
-        console.log(res)
-        setAppState( res.data );
-        setIsLoading(false);
-        navigate("/activity");
-      } else {
-        setErrors((e) => ({
-          ...e,
-          form: "Something went wrong with registration",
-        }));
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-      const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({
-        ...e,
-        form: message ? String(message) : String(err),
-      }));
+    const { data, error } = await apiClient.signupUser({
+      first_name: form.first_name,
+       last_name: form.last_name,
+       email: form.email,
+       password: form.password,
+      username: form.username
+    })
+    
+    if (error)
+    {
+      setErrors((e) => ({ ...e, form: error }))  
       setIsLoading(false);
     }
+    if (data?.user)
+    {
+      setAppState(data.user);
+      apiClient.setToken(data.token)
+
+      setIsLoading(false);
+      navigate("/activity");
+
+    }
+
+
+
+    // try {
+    //   const res = await axios.post("http://localhost:3001/auth/register", {
+    //     first_name: form.first_name,
+    //     last_name: form.last_name,
+    //     email: form.email,
+    //     password: form.password,
+    //     username: form.username,
+    //   });
+
+    //   if (res?.data?.user) {
+    //     console.log(res)
+    //     setAppState( res.data );
+    //     setIsLoading(false);
+    //     navigate("/activity");
+    //   } else {
+    //     setErrors((e) => ({
+    //       ...e,
+    //       form: "Something went wrong with registration",
+    //     }));
+    //     setIsLoading(false);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    //   const message = err?.response?.data?.error?.message;
+    //   setErrors((e) => ({
+    //     ...e,
+    //     form: message ? String(message) : String(err),
+    //   }));
+    //   setIsLoading(false);
+    // }
   };
 
   return (

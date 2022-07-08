@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./NutritionForm.css"
+import apiClient from "../services/apiClient"
 
 export default function NutritionForm({ setAppState, appState , nutrition_products,setNutrition_products }) {
-    console.log(appState)
+  console.log(appState)
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -64,38 +65,68 @@ export default function NutritionForm({ setAppState, appState , nutrition_produc
   };
 
   const handleOnSubmit = async () => {
+    
     setIsLoading(true);
     setErrors((e) => ({ ...e, form: null }));
-    try {
-      const res = await axios.post("http://localhost:3001/nutrition/create/", {
+
+    const { data, error } = await apiClient.createNutrition({
         name: form.name,
         category: form.category,
-        calories: form.calories,
-        image_url: form.image_url,
-        user_id: appState.user.id,
-      });
+         calories: form.calories,
+         image_url: form.image_url,
+         user_id: appState.user.id,
+      
+    })
+
+    if (error)
+    {
+      console.log("What is happening")
+      console.log(error)
+        setErrors(error)  
+    }
+
+    if (data)
+    {
+      navigate("/nutrition");
+      setForm("")
+    }
+
+    setIsLoading(false);
+
+
+
+
+
+    // try {
+    //   const res = await axios.post("http://localhost:3001/nutrition/create/", {
+    //     name: form.name,
+    //     category: form.category,
+    //     calories: form.calories,
+    //     image_url: form.image_url,
+    //     user_id: appState.user.id,
+    //   });
         
 
-      if (res?.data) {
-        console.log(res);
-        setIsLoading(false);
-        navigate("/nutrition");
-      } else {
-        setErrors((e) => ({
-          ...e,
-          form: "Something went wrong with nutrition",
-        }));
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-      const message = err?.response?.data?.error?.message;
-      setErrors((e) => ({
-        ...e,
-        form: message ? String(message) : String(err),
-      }));
-      setIsLoading(false);
-    }
+    //   if (res?.data) {
+    //     console.log(res);
+    //     setIsLoading(false);
+    //     navigate("/nutrition");
+    //   } else {
+    //     setErrors((e) => ({
+    //       ...e,
+    //       form: "Something went wrong with nutrition",
+    //     }));
+    //     setIsLoading(false);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    //   const message = err?.response?.data?.error?.message;
+    //   setErrors((e) => ({
+    //     ...e,
+    //     form: message ? String(message) : String(err),
+    //   }));
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -138,8 +169,8 @@ export default function NutritionForm({ setAppState, appState , nutrition_produc
           <div className="input-field">
             <label>Calories</label>
             <input
-              placeholder="Categories"
-              name="categories"
+              placeholder="calories"
+              name="calories"
               value={form.categories}
               onChange={handleOnInputChange}
             />

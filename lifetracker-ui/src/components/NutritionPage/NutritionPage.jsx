@@ -1,7 +1,18 @@
 import "./NutritionPage.css";
 import { useNavigate, Link } from "react-router-dom";
 import NutritionFeed from "components/NutririonFeed/NutritionFeed";
-export default function Nutrition() {
+
+import { NutritionContextProvider, useNutritionContext } from "../contexts/nutrition";
+export default function NutritionContainer() {
+  return (
+    <NutritionContextProvider>
+      <Nutrition />
+    </NutritionContextProvider>
+  )
+}
+function Nutrition({appState }) {
+  console.log(appState)
+
   return (
     <div className="nutrition-page">
       <div className="content">
@@ -15,9 +26,11 @@ export default function Nutrition() {
               <button>Record Nutrition</button>
             </Link>
           </div>
-          <NutritionFeed />
+          <NutritionFeed
+            appState={appState} />
         </div>
       </div>
     </div>
   );
-}
+  }
+
