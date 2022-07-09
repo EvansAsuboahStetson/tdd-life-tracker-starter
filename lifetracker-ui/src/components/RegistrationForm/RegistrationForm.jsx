@@ -3,8 +3,11 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import apiClient from "components/services/apiClient";
+import { useAuthContext } from "components/contexts/auth";
 
-export default function RegistrationForm({ setAppState }) {
+export default function RegistrationForm({}) {
+  const { initialized, appState, setAppState, setIsLoggedIn } = useAuthContext()
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -109,11 +112,13 @@ export default function RegistrationForm({ setAppState }) {
     }
     if (data?.user)
     {
-      setAppState(data.user);
+      setAppState(data);
       apiClient.setToken(data.token)
 
-      setIsLoading(false);
+    
       navigate("/activity");
+      setIsLoading(false);
+      setIsLoggedIn(true)
 
     }
 

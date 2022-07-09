@@ -34,6 +34,8 @@ Submitted by: **Evans Asuboah**
 
 Deployed Application: [Lifetracker Deployed Site](https://deafening-day.surge.sh/)
 
+![Alt Text](C:\Users\Jay_Evans\Desktop\CodePathSITEIntern\life_track\anim.gif.gif)
+
 ## Overview
 > Data is the new oil - Clive Humbly
 
