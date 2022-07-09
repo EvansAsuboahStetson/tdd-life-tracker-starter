@@ -34,7 +34,7 @@ Submitted by: **Evans Asuboah**
 
 Deployed Application: [Lifetracker Deployed Site](https://deafening-day.surge.sh/)
 
-![Alt Text](C:\Users\Jay_Evans\Desktop\CodePathSITEIntern\life_track\anim.gif.gif)
+
 
 ## Overview
 > Data is the new oil - Clive Humbly
@@ -76,7 +76,7 @@ Implement any of the following features to improve the application:
 ### Walkthrough Video
 
 ### Week 4 GIF
-![ezgif com-gif-maker-5](https://user-images.githubusercontent.com/96898896/176970976-d5e77f68-5178-400d-80c0-6efb2cd9b8e6.gif)
+![Alt Text](lifeanim.gif)
 
 ### Reflection
 
@@ -109,11 +109,11 @@ Building this application you will accomplish the following:
 - [x] Develop a full-fledged authentication system using PostgreSQL and Bcrypt
 - [x] Provide users with an Express API they can interact with to store user-related activity
 - [x] Construct multiple Models that implement the core business logic associated with tracking users' lives
-- [ ] Write SQL queries that aggregate user statistics and provide summary overviews about their activity
-- [ ] Design a React frontend that interacts with the API using an API service class
-- [ ] Build multiple pages and forms that communicate with the server using HTTP requests
-- [ ] Store user-authenticated JWT tokens in the browser's local storage for persisted authentication
-- [ ] Employ useEffect and useState hooks to manage application state on the frontend
+- [x] Write SQL queries that aggregate user statistics and provide summary overviews about their activity
+- [x] Design a React frontend that interacts with the API using an API service class
+- [x] Build multiple pages and forms that communicate with the server using HTTP requests
+- [x] Store user-authenticated JWT tokens in the browser's local storage for persisted authentication
+- [x] Employ useEffect and useState hooks to manage application state on the frontend
 
 
 ![Alt Text](https://github.com/EvansAsuboahStetson/tdd-lifetracker-starter/blob/main/anim.gif)
